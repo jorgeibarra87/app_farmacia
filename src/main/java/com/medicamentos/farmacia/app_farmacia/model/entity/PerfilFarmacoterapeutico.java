@@ -60,6 +60,18 @@ public class PerfilFarmacoterapeutico {
     @Column(name = "posologia")
     private String posologia;
 
+    @Column(name = "diagnostico_principal", length = 2000)
+    private String diagnosticoPrincipal;
+
+    @Column(name = "diagnostico_secundario", length = 2000)
+    private String diagnosticoSecundario;
+
+    @Column(name = "antecedentes_alergia")
+    private String antecedentesAlergia;
+
+    @Column(name = "antecedentes_farmacologicos")
+    private String antecedentesFarmacologicos;
+
     @Column(name = "observacion")
     private String observacion;
 

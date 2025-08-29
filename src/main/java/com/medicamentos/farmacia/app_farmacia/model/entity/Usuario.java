@@ -39,4 +39,8 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "id_servicio", referencedColumnName = "id_servicio")
     private Servicio servicio;
+
+    @ManyToOne
+    @JoinColumn(name = "id_perfil_farmacoterapeutico", referencedColumnName = "id_perfil_farmacoterapeutico")
+    private PerfilFarmacoterapeutico perfilFarmacoterapeutico;
 }
