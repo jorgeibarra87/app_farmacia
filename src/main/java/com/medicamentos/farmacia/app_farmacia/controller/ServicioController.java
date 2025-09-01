@@ -17,7 +17,7 @@ public class ServicioController {
     private ServicioService servicioService;
 
     @PostMapping("/crearServicio")
-    public ResponseEntity<?> createServicio(@RequestBody Servicio servicio) {
+    public ResponseEntity<Servicio> createServicio(@RequestBody Servicio servicio) {
         // Implementación del método para crear un usuario
         Servicio nuevoServicio = servicioService.createServicio(servicio);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoServicio);
