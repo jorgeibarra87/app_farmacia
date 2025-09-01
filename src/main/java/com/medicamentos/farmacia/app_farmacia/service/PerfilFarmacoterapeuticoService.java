@@ -13,4 +13,6 @@ public interface PerfilFarmacoterapeuticoService {
     Optional<PerfilFarmacoterapeutico> findPerfilFarmacoterapeuticoById(Long id);
     List<PerfilFarmacoterapeutico> findAllPerfilesFarmacoterapeuticos();
     PerfilFarmacoterapeutico cambiarEstadoPerfilFarmacoterapeutico(Long id, Estado nuevoEstadoPerfil);
+
+    String obtenerTipoFuenteDatos();
 }

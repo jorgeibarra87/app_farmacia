@@ -12,4 +12,7 @@ public class ServicioDTO {
     private String nombre;
     private String tipo;
     private String estadoServicio;
+
+    public ServicioDTO(String uci, String crítico, String activo) {
+    }
 }

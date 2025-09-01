@@ -38,6 +38,13 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation("org.springframework.boot:spring-boot-starter-webflux") // This is the key dependency for WebClient
+	implementation("org.springframework.boot:spring-boot-starter") // Basic Spring Boot starter
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // For Kotlin data class serialization/deserialization
+	implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin reflection library
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 dependencyManagement {

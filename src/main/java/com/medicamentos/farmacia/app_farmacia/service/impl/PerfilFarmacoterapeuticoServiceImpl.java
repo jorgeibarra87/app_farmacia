@@ -1,24 +1,83 @@
 package com.medicamentos.farmacia.app_farmacia.service.impl;
 
+import com.medicamentos.farmacia.app_farmacia.model.dto.PacientePerfilDTO;
+import com.medicamentos.farmacia.app_farmacia.model.dto.PerfilFarmacoterapeuticoDTO;
+import com.medicamentos.farmacia.app_farmacia.model.dto.UsuarioDTO;
 import com.medicamentos.farmacia.app_farmacia.model.entity.Estado;
 import com.medicamentos.farmacia.app_farmacia.model.entity.PerfilFarmacoterapeutico;
 import com.medicamentos.farmacia.app_farmacia.repository.PerfilFarmacoterapeuticoRepository;
+import com.medicamentos.farmacia.app_farmacia.service.PerfilFarmacoterapeuticoDataSource;
 import com.medicamentos.farmacia.app_farmacia.service.PerfilFarmacoterapeuticoService;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+//import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+//import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 //@NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 @Service
 public class PerfilFarmacoterapeuticoServiceImpl implements PerfilFarmacoterapeuticoService {
 
+    @Value("${app.data.source:mock}")
+    private String dataSourceType;
+
+    @Autowired
+    @Qualifier("mockDataSource")
+    private PerfilFarmacoterapeuticoDataSource mockDataSource;
+
+    @Autowired(required = false)
+    @Qualifier("apiDataSource")
+    private PerfilFarmacoterapeuticoDataSource apiDataSource;
+
+    private PerfilFarmacoterapeuticoDataSource activeDataSource;
+
     private final PerfilFarmacoterapeuticoRepository perfilFarmacoterapeuticoRepository;
+
+    @PostConstruct
+    public void init() {
+        if ("api".equals(dataSourceType) && apiDataSource != null) {
+            activeDataSource = apiDataSource;
+            System.out.println("Usando fuente de datos: API REAL");
+        } else {
+            activeDataSource = mockDataSource;
+            System.out.println("Usando fuente de datos: MOCK (Simulada)");
+        }
+    }
+
+    public List<PerfilFarmacoterapeuticoDTO> obtenerTodosLosPerfiles() {
+        return activeDataSource.obtenerTodosLosPerfiles();
+    }
+
+    public Optional<PerfilFarmacoterapeuticoDTO> obtenerPerfilPorId(Long id) {
+        return activeDataSource.obtenerPerfilPorId(id);
+    }
+
+    public List<PerfilFarmacoterapeuticoDTO> obtenerPerfilesPorPaciente(String identificacion) {
+        return activeDataSource.obtenerPerfilesPorUsuario(identificacion);
+    }
+
+    public Optional<PacientePerfilDTO> obtenerPerfilCompletoPaciente(String identificacion) {
+        return activeDataSource.obtenerPerfilCompletoPaciente(identificacion);
+    }
+
+    public List<UsuarioDTO> obtenerPacientesPorServicio(Long idServicio) {
+        return activeDataSource.obtenerUsuariosPorServicio(idServicio);
+    }
+
+    // Método adicional para verificar el estado del servicio
+    public String obtenerTipoFuenteDatos() {
+        return dataSourceType.toUpperCase();
+    }
 
     @Override
     public PerfilFarmacoterapeutico createPerfilFarmacoterapeutico(PerfilFarmacoterapeutico perfilFarmacoterapeutico) {
